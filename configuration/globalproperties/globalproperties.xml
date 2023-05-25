@@ -1,0 +1,96 @@
+<config>
+  <globalProperties>
+  <globalProperty>
+      <property>bahmni.extraPatientIdentifierTypes</property>
+      <value>N/A</value>
+    </globalProperty>
+    <globalProperty>
+	<property>SchedulerMarksComplete</property>
+      <value>true</value>
+    </globalProperty>
+	<globalProperty>
+	<property>SchedulerMarksMissed</property>
+      <value>true</value>
+    </globalProperty>
+    <globalProperty>
+    <property>bahmni.appointment.teleConsultation.patientEmailNotificationSubject</property>
+      <value>Nextgen Teleconsultation appointment confirmed</value>
+    </globalProperty>
+    <globalProperty>
+	<property>bahmni.appointment.teleConsultation.patientEmailNotificationTemplate</property>
+      <value>Hi {0}, Your tele-consultation appointment with {1} for {2} has been scheduled! Please use this link {3}. If you have any questions, please reach out to administration for assistance. See you soon!</value>
+    </globalProperty>
+    <globalProperty>
+	<property>bahmni.appointment.teleConsultation.sendEmail</property>
+      <value>true</value>
+    </globalProperty>
+    <globalProperty>
+	<property>mail.from</property>
+      <value>appointmentsehospital@gmail.com</value>
+    </globalProperty>
+     <globalProperty>
+	<property>Optimum Weight</property>
+      <value>34.84</value>
+    </globalProperty>
+    <globalProperty>
+	<property>Optimum Height</property>
+      <value>139.15</value>
+    </globalProperty>
+    <globalProperty>
+	<property>Optimum Body Fat</property>
+      <value>16.4</value>
+    </globalProperty>
+    <globalProperty>
+	<property>Optimum Multistage fitness</property>
+      <value>6.8</value>
+    </globalProperty>
+    <globalProperty>
+	<property>Optimum Core Strength</property>
+      <value>60</value>
+    </globalProperty>
+    <globalProperty>
+	<property>Optimum Sit And Recah Test</property>
+      <value>48</value>
+    </globalProperty>
+    <globalProperty>
+	<property>Optimum T-Test</property>
+      <value>0</value>
+    </globalProperty>
+     <globalProperty>
+	<property>Optimum 5m Speed Test</property>
+      <value>1.68</value>
+    </globalProperty>
+     <globalProperty>
+	<property>Optimum 20m Speed Test</property>
+      <value>3.67</value>
+    </globalProperty>
+     <globalProperty>
+	<property>Optimum Vertical Jump</property>
+      <value>37</value>
+    </globalProperty>
+    <globalProperty>
+	<property>emrapi.sqlSearch.activeStudents</property>
+      <value>select distinct concat(pn.given_name," ", ifnull(pn.family_name,'')) as name,
+ pi.identifier as identifier,
+ concat("",p.uuid) as uuid,
+ concat("",v.uuid) as activeVisitUuid,
+ pa.value,
+ IF(va.value_reference = "Admitted", "true", "false") as hasBeenAdmitted
+ from
+   visit v join person_name pn on v.patient_id = pn.person_id and pn.voided = 0 and v.voided=0
+   join patient_identifier pi on v.patient_id = pi.patient_id and pi.voided=0
+   join patient_identifier_type pit on pi.identifier_type = pit.patient_identifier_type_id
+   join global_property gp on gp.property="bahmni.primaryIdentifierType" and gp.property_value=pit.uuid
+   join person p on p.person_id = v.patient_id  and p.voided=0
+   join encounter en on en.visit_id = v.visit_id and en.voided=0
+   left outer join location loc on en.location_id = loc.location_id
+   join encounter_provider ep on ep.encounter_id = en.encounter_id  and ep.voided=0
+   join provider pr on ep.provider_id=pr.provider_id and pr.retired=0
+   join person per on pr.person_id=per.person_id and per.voided=0
+   join person_attribute pa on p.person_id = pa.person_id and pa.value = "Nextgen Academy"
+   left outer join visit_attribute va on va.visit_id = v.visit_id and va.attribute_type_id = (
+   select visit_attribute_type_id from visit_attribute_type where name="Admission Status") where
+   v.date_stopped is null order by en.encounter_datetime desc</value>
+    </globalProperty>
+  </globalProperties>
+</config>
